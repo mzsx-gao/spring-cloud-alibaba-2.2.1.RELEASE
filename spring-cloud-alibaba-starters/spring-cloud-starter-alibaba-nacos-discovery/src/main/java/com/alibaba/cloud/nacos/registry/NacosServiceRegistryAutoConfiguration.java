@@ -32,6 +32,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
+ * 自动注册
  * @author xiaojing
  * @author <a href="mailto:mercyblitz@gmail.com">Mercy</a>
  */
@@ -45,6 +46,7 @@ import org.springframework.context.annotation.Configuration;
 		NacosDiscoveryAutoConfiguration.class })
 public class NacosServiceRegistryAutoConfiguration {
 
+	//该类完成nacos的注册功能,其实就是发一个http请求给服务器
 	@Bean
 	public NacosServiceRegistry nacosServiceRegistry(
 			NacosDiscoveryProperties nacosDiscoveryProperties) {
@@ -59,6 +61,7 @@ public class NacosServiceRegistryAutoConfiguration {
 		return new NacosRegistration(nacosDiscoveryProperties, context);
 	}
 
+	//该类完成自动调用nacos的注册方法
 	@Bean
 	@ConditionalOnBean(AutoServiceRegistrationProperties.class)
 	public NacosAutoServiceRegistration nacosAutoServiceRegistration(

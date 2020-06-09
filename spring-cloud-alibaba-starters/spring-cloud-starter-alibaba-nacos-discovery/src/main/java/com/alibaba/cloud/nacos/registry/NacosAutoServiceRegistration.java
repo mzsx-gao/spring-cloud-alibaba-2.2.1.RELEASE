@@ -27,6 +27,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 /**
+ * 自动注册功能，这个类继承AbstractAutoServiceRegistration，从而能够监听到WebServerInitializedEvent事件，
+ * 继而调用NacosRegistration中的register()方法完成注册
  * @author xiaojing
  * @author <a href="mailto:mercyblitz@gmail.com">Mercy</a>
  */

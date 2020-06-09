@@ -39,6 +39,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
+ * 修改属性则调用刷新接口:
+ * http://127.0.0.1:18084/actuator/refresh
  * @author xiaojing, Jianwei Mao
  */
 @SpringBootApplication
@@ -48,13 +50,9 @@ public class Application {
 		SpringApplication.run(Application.class, args);
 	}
 
-	@Bean
-	public UserConfig userConfig() {
-		return new UserConfig();
-	}
-
 }
 
+@Component
 @ConfigurationProperties(prefix = "user")
 class UserConfig {
 
