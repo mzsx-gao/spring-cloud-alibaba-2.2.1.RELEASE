@@ -29,8 +29,6 @@ import org.springframework.util.StringUtils;
 /**
  * 自动注册功能，这个类继承AbstractAutoServiceRegistration，从而能够监听到WebServerInitializedEvent事件，
  * 继而调用NacosRegistration中的register()方法完成注册
- * @author xiaojing
- * @author <a href="mailto:mercyblitz@gmail.com">Mercy</a>
  */
 public class NacosAutoServiceRegistration
 		extends AbstractAutoServiceRegistration<Registration> {
@@ -66,6 +64,7 @@ public class NacosAutoServiceRegistration
 		return null;
 	}
 
+	//自动注册服务
 	@Override
 	protected void register() {
 		if (!this.registration.getNacosDiscoveryProperties().isRegisterEnabled()) {

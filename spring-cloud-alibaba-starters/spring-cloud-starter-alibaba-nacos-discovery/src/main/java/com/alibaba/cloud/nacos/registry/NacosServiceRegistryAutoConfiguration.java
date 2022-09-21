@@ -33,8 +33,6 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * 自动注册
- * @author xiaojing
- * @author <a href="mailto:mercyblitz@gmail.com">Mercy</a>
  */
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties
@@ -46,30 +44,24 @@ import org.springframework.context.annotation.Configuration;
 		NacosDiscoveryAutoConfiguration.class })
 public class NacosServiceRegistryAutoConfiguration {
 
-	//该类完成nacos的注册功能,其实就是发一个http请求给服务器
+	// 该类完成nacos的注册功能,其实就是发一个http请求给服务器
 	@Bean
-	public NacosServiceRegistry nacosServiceRegistry(
-			NacosDiscoveryProperties nacosDiscoveryProperties) {
+	public NacosServiceRegistry nacosServiceRegistry(NacosDiscoveryProperties nacosDiscoveryProperties) {
 		return new NacosServiceRegistry(nacosDiscoveryProperties);
 	}
 
 	@Bean
 	@ConditionalOnBean(AutoServiceRegistrationProperties.class)
-	public NacosRegistration nacosRegistration(
-			NacosDiscoveryProperties nacosDiscoveryProperties,
-			ApplicationContext context) {
+	public NacosRegistration nacosRegistration(NacosDiscoveryProperties nacosDiscoveryProperties,
+                                               ApplicationContext context) {
 		return new NacosRegistration(nacosDiscoveryProperties, context);
 	}
 
-	//该类完成自动调用nacos的注册方法
+	// 该类完成自动调用nacos的注册方法
 	@Bean
 	@ConditionalOnBean(AutoServiceRegistrationProperties.class)
-	public NacosAutoServiceRegistration nacosAutoServiceRegistration(
-			NacosServiceRegistry registry,
-			AutoServiceRegistrationProperties autoServiceRegistrationProperties,
-			NacosRegistration registration) {
-		return new NacosAutoServiceRegistration(registry,
-				autoServiceRegistrationProperties, registration);
+	public NacosAutoServiceRegistration nacosAutoServiceRegistration(NacosServiceRegistry registry,
+			AutoServiceRegistrationProperties autoServiceRegistrationProperties, NacosRegistration registration) {
+		return new NacosAutoServiceRegistration(registry, autoServiceRegistrationProperties, registration);
 	}
-
 }

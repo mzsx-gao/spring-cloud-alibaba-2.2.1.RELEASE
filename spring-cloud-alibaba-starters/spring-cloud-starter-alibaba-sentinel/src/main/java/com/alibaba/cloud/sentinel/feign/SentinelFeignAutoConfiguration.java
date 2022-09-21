@@ -33,6 +33,7 @@ import org.springframework.context.annotation.Scope;
 @ConditionalOnClass({ SphU.class, Feign.class })
 public class SentinelFeignAutoConfiguration {
 
+    //sentinel对feign的支持
 	@Bean
 	@Scope("prototype")
 	@ConditionalOnMissingBean

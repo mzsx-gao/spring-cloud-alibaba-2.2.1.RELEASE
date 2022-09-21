@@ -91,10 +91,13 @@ public class NacosContextRefresher
 		this.configService = configService;
 	}
 
+	//springboot启动最后会发布一个ApplicationReadyEvent事件
+    //org.springframework.boot.SpringApplication#run(String...) #listeners.running(context);
 	@Override
 	public void onApplicationEvent(ApplicationReadyEvent event) {
 		// many Spring context
 		if (this.ready.compareAndSet(false, true)) {
+		    //注册Nacos监听器，监听nacos配置修改后发布一下spring refreshEvent刷新配置和应用
 			this.registerNacosListenersForApplications();
 		}
 	}
@@ -109,29 +112,30 @@ public class NacosContextRefresher
 	 */
 	private void registerNacosListenersForApplications() {
 		if (isRefreshEnabled()) {
-			for (NacosPropertySource propertySource : NacosPropertySourceRepository
-					.getAll()) {
+			for (NacosPropertySource propertySource : NacosPropertySourceRepository.getAll()) {
 				if (!propertySource.isRefreshable()) {
 					continue;
 				}
 				String dataId = propertySource.getDataId();
+				//为每个dataId注册监听器
 				registerNacosListener(propertySource.getGroup(), dataId);
 			}
 		}
 	}
 
+    //注册Nacos监听器，监听nacos配置修改后发布一下spring refreshEvent刷新配置和应用
 	private void registerNacosListener(final String groupKey, final String dataKey) {
 		String key = NacosPropertySourceRepository.getMapKey(dataKey, groupKey);
 		Listener listener = listenerMap.computeIfAbsent(key,
 				lst -> new AbstractSharedListener() {
 					@Override
-					public void innerReceive(String dataId, String group,
-							String configInfo) {
+					public void innerReceive(String dataId, String group, String configInfo) {
 						refreshCountIncrement();
+						//添加刷新记录
 						nacosRefreshHistory.addRefreshRecord(dataId, group, configInfo);
 						// todo feature: support single refresh for listening
-						applicationContext.publishEvent(
-								new RefreshEvent(this, null, "Refresh Nacos config"));
+                        //监听到nacos配置修改后发布RefreshEvent事件，然后springcloud-context中的RefreshEventListener会监听该事件
+						applicationContext.publishEvent(new RefreshEvent(this, null, "Refresh Nacos config"));
 						if (log.isDebugEnabled()) {
 							log.debug(String.format(
 									"Refresh Nacos config group=%s,dataId=%s,configInfo=%s",

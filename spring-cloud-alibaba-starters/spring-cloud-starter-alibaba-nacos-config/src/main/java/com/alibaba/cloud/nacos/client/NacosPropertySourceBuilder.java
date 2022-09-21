@@ -78,6 +78,7 @@ public class NacosPropertySourceBuilder {
 		return nacosPropertySource;
 	}
 
+	//调用configService方法获取配置
 	private Map<String, Object> loadNacosData(String dataId, String group,
 			String fileExtension) {
 		String data = null;

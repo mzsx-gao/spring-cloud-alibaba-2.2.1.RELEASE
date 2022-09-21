@@ -72,6 +72,7 @@ public class NacosPropertySourceLocator implements PropertySourceLocator {
 		this.nacosConfigProperties = nacosConfigManager.getNacosConfigProperties();
 	}
 
+	//加载配置中心的配置
 	@Override
 	public PropertySource<?> locate(Environment env) {
 		nacosConfigProperties.setEnvironment(env);

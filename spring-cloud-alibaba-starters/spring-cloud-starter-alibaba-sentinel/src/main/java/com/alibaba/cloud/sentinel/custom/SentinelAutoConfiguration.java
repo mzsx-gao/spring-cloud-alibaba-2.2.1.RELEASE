@@ -137,6 +137,9 @@ public class SentinelAutoConfiguration {
 
 	}
 
+    /**
+     * 处理@SentinelResource注解
+     */
 	@Bean
 	@ConditionalOnMissingBean
 	public SentinelResourceAspect sentinelResourceAspect() {
@@ -153,6 +156,10 @@ public class SentinelAutoConfiguration {
 		return new SentinelBeanPostProcessor(applicationContext);
 	}
 
+    /**
+     * 处理nacosDatasource，springcloud集成nacos数据源的入口：
+     * 内部通过NacosDataSourceFactoryBean实例化NacosDataSource对象
+     */
 	@Bean
 	@ConditionalOnMissingBean
 	public SentinelDataSourceHandler sentinelDataSourceHandler(

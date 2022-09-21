@@ -60,6 +60,8 @@ public class NacosConfigAutoConfiguration {
 		return new NacosConfigManager(nacosConfigProperties);
 	}
 
+	// 用来监听ApplicationReadyEvent事件，
+	// 注册一个nacos监听器: 监听nacos配置修改后发布一下spring refreshEvent刷新配置和应用
 	@Bean
 	public NacosContextRefresher nacosContextRefresher(
 			NacosConfigManager nacosConfigManager,

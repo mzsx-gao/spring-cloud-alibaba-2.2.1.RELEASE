@@ -39,8 +39,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 修改属性则调用刷新接口:
- * http://127.0.0.1:18084/actuator/refresh
+ * nacos控台配置改动后会自动刷新客户端属性
+ *
  * @author xiaojing, Jianwei Mao
  */
 @SpringBootApplication

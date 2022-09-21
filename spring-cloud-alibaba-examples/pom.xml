@@ -23,22 +23,22 @@
         <module>sentinel-example/sentinel-dubbo-example/sentinel-dubbo-api</module>
         <module>sentinel-example/sentinel-feign-example/sentinel-feign-consumer-example</module>
         <module>sentinel-example/sentinel-feign-example/sentinel-feign-provider-example</module>
-        <module>sentinel-example/sentinel-webflux-example</module>
+        <!--<module>sentinel-example/sentinel-webflux-example</module>-->
         <module>sentinel-example/sentinel-spring-cloud-gateway-example</module>
         <module>sentinel-example/sentinel-zuul-example</module>
         <module>nacos-example/nacos-discovery-example</module>
         <module>nacos-example/nacos-config-example</module>
         <module>nacos-example/nacos-gateway-example</module>
-        <module>seata-example/business-service</module>
-        <module>seata-example/order-service</module>
-        <module>seata-example/storage-service</module>
-        <module>seata-example/account-service</module>
-        <module>rocketmq-example/rocketmq-consume-example</module>
-        <module>rocketmq-example/rocketmq-produce-example</module>
-        <module>spring-cloud-bus-rocketmq-example</module>
-        <module>spring-cloud-alibaba-dubbo-examples</module>
-        <module>spring-cloud-alibaba-sidecar-examples/spring-cloud-alibaba-sidecar-nacos-example</module>
-        <module>spring-cloud-alibaba-sidecar-examples/spring-cloud-alibaba-sidecar-consul-example</module>
+        <!--<module>seata-example/business-service</module>-->
+        <!--<module>seata-example/order-service</module>-->
+        <!--<module>seata-example/storage-service</module>-->
+        <!--<module>seata-example/account-service</module>-->
+        <!--<module>rocketmq-example/rocketmq-consume-example</module>-->
+        <!--<module>rocketmq-example/rocketmq-produce-example</module>-->
+        <!--<module>spring-cloud-bus-rocketmq-example</module>-->
+        <!--<module>spring-cloud-alibaba-dubbo-examples</module>-->
+        <!--<module>spring-cloud-alibaba-sidecar-examples/spring-cloud-alibaba-sidecar-nacos-example</module>-->
+        <!--<module>spring-cloud-alibaba-sidecar-examples/spring-cloud-alibaba-sidecar-consul-example</module>-->
     </modules>
 
     <build>

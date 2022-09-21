@@ -68,6 +68,7 @@ public class SentinelWebAutoConfiguration implements WebMvcConfigurer {
 	@Autowired
 	private Optional<SentinelWebInterceptor> sentinelWebInterceptorOptional;
 
+	//添加springmvc拦截器-SentinelWebInterceptor
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		if (!sentinelWebInterceptorOptional.isPresent()) {
@@ -82,6 +83,7 @@ public class SentinelWebAutoConfiguration implements WebMvcConfigurer {
 				filterConfig.getUrlPatterns());
 	}
 
+	//该拦截器会拦截所有的web请求的url
 	@Bean
 	@ConditionalOnProperty(name = "spring.cloud.sentinel.filter.enabled",
 			matchIfMissing = true)
@@ -98,8 +100,8 @@ public class SentinelWebAutoConfiguration implements WebMvcConfigurer {
 		sentinelWebMvcConfig.setHttpMethodSpecify(properties.getHttpMethodSpecify());
 
 		if (blockExceptionHandlerOptional.isPresent()) {
-			blockExceptionHandlerOptional
-					.ifPresent(sentinelWebMvcConfig::setBlockExceptionHandler);
+		    //设置通用的BlockException异常处理器
+			blockExceptionHandlerOptional.ifPresent(sentinelWebMvcConfig::setBlockExceptionHandler);
 		}
 		else {
 			if (StringUtils.hasText(properties.getBlockPage())) {
@@ -107,8 +109,7 @@ public class SentinelWebAutoConfiguration implements WebMvcConfigurer {
 						e) -> response.sendRedirect(properties.getBlockPage())));
 			}
 			else {
-				sentinelWebMvcConfig
-						.setBlockExceptionHandler(new DefaultBlockExceptionHandler());
+				sentinelWebMvcConfig.setBlockExceptionHandler(new DefaultBlockExceptionHandler());
 			}
 		}
 

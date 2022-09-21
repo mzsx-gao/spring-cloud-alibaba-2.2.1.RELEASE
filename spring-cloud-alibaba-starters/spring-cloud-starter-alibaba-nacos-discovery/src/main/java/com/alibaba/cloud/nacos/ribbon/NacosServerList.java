@@ -57,9 +57,7 @@ public class NacosServerList extends AbstractServerList<NacosServer> {
 			return instancesToServerList(instances);
 		}
 		catch (Exception e) {
-			throw new IllegalStateException(
-					"Can not get service instances from nacos, serviceId=" + serviceId,
-					e);
+			throw new IllegalStateException("Can not get service instances from nacos, serviceId=" + serviceId, e);
 		}
 	}
 

@@ -49,6 +49,7 @@ public class NacosDataSourceFactoryBean implements FactoryBean<NacosDataSource> 
 
 	private String secretKey;
 
+	//实例化出NacosDataSource对象
 	@Override
 	public NacosDataSource getObject() throws Exception {
 		Properties properties = new Properties();

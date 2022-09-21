@@ -36,6 +36,8 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnRibbonNacos
 @ConditionalOnNacosDiscoveryEnabled
 @AutoConfigureAfter(RibbonAutoConfiguration.class)
+//集成ribbon,三方组件集成ribbon就是覆盖ribbonServerList这个bean
+//这个注解会被RibbonClientConfigurationRegistrar解析到，将NacosRibbonClientConfiguration注入到spring容器
 @RibbonClients(defaultConfiguration = NacosRibbonClientConfiguration.class)
 public class RibbonNacosAutoConfiguration {
 

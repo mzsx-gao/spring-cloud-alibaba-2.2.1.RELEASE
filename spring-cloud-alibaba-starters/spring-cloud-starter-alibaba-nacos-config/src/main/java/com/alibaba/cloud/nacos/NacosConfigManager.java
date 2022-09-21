@@ -40,20 +40,21 @@ public class NacosConfigManager {
 		this.nacosConfigProperties = nacosConfigProperties;
 		// Compatible with older code in NacosConfigProperties,It will be deleted in the
 		// future.
+        //创建ConfigService，连接nacos服务器(具体实现是NacosConfigService)
 		createConfigService(nacosConfigProperties);
 	}
 
 	/**
 	 * Compatible with old design,It will be perfected in the future.
 	 */
-	static ConfigService createConfigService(
-			NacosConfigProperties nacosConfigProperties) {
+	static ConfigService createConfigService(NacosConfigProperties nacosConfigProperties) {
 		if (Objects.isNull(service)) {
 			synchronized (NacosConfigManager.class) {
 				try {
 					if (Objects.isNull(service)) {
+					    //创建ConfigService(具体实现是NacosConfigService)
 						service = NacosFactory.createConfigService(
-								nacosConfigProperties.assembleConfigServiceProperties());
+						    nacosConfigProperties.assembleConfigServiceProperties());
 					}
 				}
 				catch (NacosException e) {

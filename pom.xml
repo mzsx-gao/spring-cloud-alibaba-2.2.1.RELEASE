@@ -83,14 +83,14 @@
         <revision>2.2.1.RELEASE</revision>
 
         <!-- Dependency Versions -->
-        <spring-cloud-commons.version>2.2.2.RELEASE</spring-cloud-commons.version>
-        <spring-cloud-netflix.version>2.2.2.RELEASE</spring-cloud-netflix.version>
+        <spring-cloud-commons.version>2.2.1.RELEASE</spring-cloud-commons.version>
+        <spring-cloud-netflix.version>2.2.1.RELEASE</spring-cloud-netflix.version>
         <spring-cloud-openfeign.version>2.2.2.RELEASE</spring-cloud-openfeign.version>
         <spring-cloud-bus.version>2.2.1.RELEASE</spring-cloud-bus.version>
-        <spring-cloud-gateway.version>2.2.2.RELEASE</spring-cloud-gateway.version>
+        <spring-cloud-gateway.version>2.2.1.RELEASE</spring-cloud-gateway.version>
         <spring-cloud-stream.version>Horsham.SR3</spring-cloud-stream.version>
-        <spring-cloud-consul.version>2.2.2.RELEASE</spring-cloud-consul.version>
-        <spring-cloud-config.version>2.2.2.RELEASE</spring-cloud-config.version>
+        <spring-cloud-consul.version>2.2.1.RELEASE</spring-cloud-consul.version>
+        <spring-cloud-config.version>2.2.1.RELEASE</spring-cloud-config.version>
         <spring-cloud-zookeeper.version>2.2.1.RELEASE</spring-cloud-zookeeper.version>
 
         <junit.version>4.12</junit.version>
@@ -119,7 +119,7 @@
     <modules>
         <module>spring-cloud-alibaba-dependencies</module>
         <module>spring-cloud-alibaba-examples</module>
-        <module>spring-cloud-alibaba-docs</module>
+        <!--<module>spring-cloud-alibaba-docs</module>-->
         <module>spring-cloud-alibaba-starters</module>
         <module>spring-cloud-alibaba-coverage</module>
     </modules>
@@ -306,28 +306,28 @@
                 <groupId>io.spring.javaformat</groupId>
                 <artifactId>spring-javaformat-maven-plugin</artifactId>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>checkstyle-validation</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                        <configuration>
-                            <!-- Checkstyle rules inherited from spring-cloud-build -->
-                            <suppressionsLocation>${session.executionRootDirectory}/eclipse/checkstyle-suppressions.xml</suppressionsLocation>
-                            <includeTestSourceDirectory>true</includeTestSourceDirectory>
-                            <consoleOutput>true</consoleOutput>
-                            <failsOnError>true</failsOnError>
-                            <failOnViolation>true</failOnViolation>
-                            <violationSeverity>warning</violationSeverity>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-checkstyle-plugin</artifactId>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<id>checkstyle-validation</id>-->
+                        <!--<phase>validate</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>check</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--&lt;!&ndash; Checkstyle rules inherited from spring-cloud-build &ndash;&gt;-->
+                            <!--<suppressionsLocation>${session.executionRootDirectory}/eclipse/checkstyle-suppressions.xml</suppressionsLocation>-->
+                            <!--<includeTestSourceDirectory>true</includeTestSourceDirectory>-->
+                            <!--<consoleOutput>true</consoleOutput>-->
+                            <!--<failsOnError>true</failsOnError>-->
+                            <!--<failOnViolation>true</failOnViolation>-->
+                            <!--<violationSeverity>warning</violationSeverity>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -352,14 +352,14 @@
         </plugins>
     </build>
 
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </reporting>
+    <!--<reporting>-->
+        <!--<plugins>-->
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-checkstyle-plugin</artifactId>-->
+            <!--</plugin>-->
+        <!--</plugins>-->
+    <!--</reporting>-->
 
     <profiles>
         <profile>

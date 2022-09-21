@@ -177,6 +177,10 @@ public class SentinelBeanPostProcessor implements MergedBeanDefinitionPostProces
 						.isAnnotated(SentinelRestTemplate.class.getName());
 	}
 
+    /**
+     * 给restTemplate添加SentinelProtectInterceptor拦截器，这里就是sentinel整合restTemplate的原理,
+     * 类似于ribbon的实现原理
+     */
 	@Override
 	public Object postProcessAfterInitialization(Object bean, String beanName)
 			throws BeansException {
@@ -200,6 +204,7 @@ public class SentinelBeanPostProcessor implements MergedBeanDefinitionPostProces
 			registerBean(interceptorBeanName, sentinelRestTemplate, (RestTemplate) bean);
 			SentinelProtectInterceptor sentinelProtectInterceptor = applicationContext
 					.getBean(interceptorBeanName, SentinelProtectInterceptor.class);
+			//给restTemplate添加拦截器SentinelProtectInterceptor
 			restTemplate.getInterceptors().add(0, sentinelProtectInterceptor);
 		}
 		return bean;

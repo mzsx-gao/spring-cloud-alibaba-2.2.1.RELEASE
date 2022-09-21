@@ -37,9 +37,16 @@ import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.RestTemplate;
 
 /**
- * Interceptor using by SentinelRestTemplate.
- *
- * @author <a href="mailto:fangjian0423@gmail.com">Jim</a>
+ * 实现对restTemplate的限流功能，通过对restTemplate加@SentinelRestTemplate注解实现，如:
+ * @Bean
+ * @LoadBalanced
+ * @SentinelRestTemplate(
+ *     fallbackClass = GlobalExceptionUtil.class,fallback = "fallback",
+ *     blockHandlerClass = GlobalExceptionUtil.class,blockHandler = "handleException"
+ * )
+ * public RestTemplate restTemplate() {
+ *     return new RestTemplate();
+ * }
  */
 public class SentinelProtectInterceptor implements ClientHttpRequestInterceptor {
 

@@ -50,8 +50,7 @@ import org.springframework.util.StringUtils;
  */
 public class SentinelDataSourceHandler implements SmartInitializingSingleton {
 
-	private static final Logger log = LoggerFactory
-			.getLogger(SentinelDataSourceHandler.class);
+	private static final Logger log = LoggerFactory.getLogger(SentinelDataSourceHandler.class);
 
 	private List<String> dataTypeList = Arrays.asList("json", "xml");
 
@@ -74,6 +73,7 @@ public class SentinelDataSourceHandler implements SmartInitializingSingleton {
 		this.env = env;
 	}
 
+	//初始化数据源
 	@Override
 	public void afterSingletonsInstantiated() {
 		sentinelProperties.getDatasource()
@@ -90,8 +90,9 @@ public class SentinelDataSourceHandler implements SmartInitializingSingleton {
 								.getValidDataSourceProperties();
 						abstractDataSourceProperties.setEnv(env);
 						abstractDataSourceProperties.preCheck(dataSourceName);
-						registerBean(abstractDataSourceProperties, dataSourceName
-								+ "-sentinel-" + validFields.get(0) + "-datasource");
+						//beanName例如:ds1-sentinel-nacos-datasource
+						registerBean(abstractDataSourceProperties,
+                            dataSourceName + "-sentinel-" + validFields.get(0) + "-datasource");
 					}
 					catch (Exception e) {
 						log.error("[Sentinel Starter] DataSource " + dataSourceName
@@ -100,8 +101,7 @@ public class SentinelDataSourceHandler implements SmartInitializingSingleton {
 				});
 	}
 
-	private void registerBean(final AbstractDataSourceProperties dataSourceProperties,
-			String dataSourceName) {
+	private void registerBean(final AbstractDataSourceProperties dataSourceProperties, String dataSourceName) {
 
 		Map<String, Object> propertyMap = Arrays
 				.stream(dataSourceProperties.getClass().getDeclaredFields())
@@ -111,12 +111,10 @@ public class SentinelDataSourceHandler implements SmartInitializingSingleton {
 						m.put(v.getName(), v.get(dataSourceProperties));
 					}
 					catch (IllegalAccessException e) {
-						log.error("[Sentinel Starter] DataSource " + dataSourceName
-								+ " field: " + v.getName() + " invoke error");
-						throw new RuntimeException(
-								"[Sentinel Starter] DataSource " + dataSourceName
-										+ " field: " + v.getName() + " invoke error",
-								e);
+						log.error("[Sentinel Starter] DataSource "
+                            + dataSourceName + " field: " + v.getName() + " invoke error");
+						throw new RuntimeException("[Sentinel Starter] DataSource "
+                            + dataSourceName + " field: " + v.getName() + " invoke error", e);
 					}
 				}, HashMap::putAll);
 		propertyMap.put(CONVERTER_CLASS_FIELD, dataSourceProperties.getConverterClass());
@@ -126,8 +124,7 @@ public class SentinelDataSourceHandler implements SmartInitializingSingleton {
 				.genericBeanDefinition(dataSourceProperties.getFactoryBeanName());
 
 		propertyMap.forEach((propertyName, propertyValue) -> {
-			Field field = ReflectionUtils.findField(dataSourceProperties.getClass(),
-					propertyName);
+			Field field = ReflectionUtils.findField(dataSourceProperties.getClass(), propertyName);
 			if (null == field) {
 				return;
 			}
@@ -135,8 +132,7 @@ public class SentinelDataSourceHandler implements SmartInitializingSingleton {
 				String dataType = StringUtils.trimAllWhitespace(propertyValue.toString());
 				if (CUSTOM_DATA_TYPE.equals(dataType)) {
 					try {
-						if (StringUtils
-								.isEmpty(dataSourceProperties.getConverterClass())) {
+						if (StringUtils.isEmpty(dataSourceProperties.getConverterClass())) {
 							throw new RuntimeException("[Sentinel Starter] DataSource "
 									+ dataSourceName
 									+ "dataType is custom, please set converter-class "
@@ -144,15 +140,11 @@ public class SentinelDataSourceHandler implements SmartInitializingSingleton {
 						}
 						// construct custom Converter with 'converterClass'
 						// configuration and register
-						String customConvertBeanName = "sentinel-"
-								+ dataSourceProperties.getConverterClass();
+						String customConvertBeanName = "sentinel-" + dataSourceProperties.getConverterClass();
 						if (!this.beanFactory.containsBean(customConvertBeanName)) {
 							this.beanFactory.registerBeanDefinition(customConvertBeanName,
-									BeanDefinitionBuilder
-											.genericBeanDefinition(
-													Class.forName(dataSourceProperties
-															.getConverterClass()))
-											.getBeanDefinition());
+									BeanDefinitionBuilder.genericBeanDefinition(
+									    Class.forName(dataSourceProperties.getConverterClass())).getBeanDefinition());
 						}
 						builder.addPropertyReference("converter", customConvertBeanName);
 					}
@@ -180,10 +172,8 @@ public class SentinelDataSourceHandler implements SmartInitializingSingleton {
 					// converter type now support xml or json.
 					// The bean name of these converters wrapped by
 					// 'sentinel-{converterType}-{ruleType}-converter'
-					builder.addPropertyReference("converter",
-							"sentinel-" + propertyValue.toString() + "-"
-									+ dataSourceProperties.getRuleType().getName()
-									+ "-converter");
+					builder.addPropertyReference("converter", "sentinel-" + propertyValue.toString() + "-"
+									+ dataSourceProperties.getRuleType().getName() + "-converter");
 				}
 			}
 			else if (CONVERTER_CLASS_FIELD.equals(propertyName)) {
@@ -191,18 +181,17 @@ public class SentinelDataSourceHandler implements SmartInitializingSingleton {
 			}
 			else {
 				// wired properties
-				Optional.ofNullable(propertyValue)
-						.ifPresent(v -> builder.addPropertyValue(propertyName, v));
+				Optional.ofNullable(propertyValue).ifPresent(v -> builder.addPropertyValue(propertyName, v));
 			}
 		});
 
-		this.beanFactory.registerBeanDefinition(dataSourceName,
-				builder.getBeanDefinition());
-		// init in Spring
-		AbstractDataSource newDataSource = (AbstractDataSource) this.beanFactory
-				.getBean(dataSourceName);
+        // 注册FactoryBean： NacosDataSourceFactoryBean
+		this.beanFactory.registerBeanDefinition(dataSourceName, builder.getBeanDefinition());
+		// 实例化NacosDataSourceFactoryBean，调用其getObject()方法，最终返回NacosDataSource对象
+		AbstractDataSource newDataSource = (AbstractDataSource) this.beanFactory.getBean(dataSourceName);
 
 		// register property in RuleManager
+        // 注册读数据源
 		dataSourceProperties.postRegister(newDataSource);
 	}
 
